@@ -18,10 +18,9 @@ class Home extends Component {
                 </div>
                 <div className='section'>
                     <div className='sider'>
-                        <TreeBar></TreeBar>
-                    </div>
-                    <div className='chart'>
-                        <EventDrop></EventDrop>
+                        <TreeBar>
+                            <EventDrop></EventDrop>
+                        </TreeBar>
                     </div>
                 </div>
             </div>
@@ -36,9 +35,11 @@ const mapStateToProps=(state)=>{
     }
 }
 const mapDispatchToProps= dispatch => {
+    console.log(actions)
+    console.log(typeof(actions.home.treebar.lightUp))
     return {
-        addTag: bindActionCreators(actions.home.treebar.addTag),
-        deleteTag: bindActionCreators(action.home.treebar.deleteTag)
+        lightup: bindActionCreators(actions.home.treebar.lghtUp),
+        lightdown: bindActionCreators(actions.home.treebar.lightdown)
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
