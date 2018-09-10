@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {TreeSelect} from 'antd'
+import {TreeSelect, Input} from 'antd'
 const TreeNode = TreeSelect.TreeNode
 export default class Node extends Component {
   constructor(props){
@@ -8,20 +8,21 @@ export default class Node extends Component {
       visible:false
     }
   }
-_handleClick = (event) => {
-        const { visible } = this.state;
-        const wasOutside = !(event.target.contains === this.root);
+  _handleClick = (event) => {
+    const { visible } = this.state;
+    const wasOutside = !(event.target.contains === this.root);
+    if (wasOutside && visible) this.setState({ visible: false, });
+  };
 
-        if (wasOutside && visible) this.setState({ visible: false, });
-    };
+  _handleScroll = () => {
+    const { visible } = this.state;
+    if (visible) this.setState({ visible: false, });
+  };
 
-    _handleScroll = () => {
-        const { visible } = this.state;
-
-        if (visible) this.setState({ visible: false, });
-    };  _handleDoubleClick=()=>{
+  _handleDoubleClick=()=>{
     
   }
+  
  _handleContextMenu = (event) => {
         event.preventDefault();
 
@@ -58,23 +59,25 @@ _handleClick = (event) => {
             this.root.style.top = `${clickY - rootH - 5}px`;
         }
     }
-   componentDidMount() {
-        document.addEventListener('contextmenu', this._handleContextMenu);
-        document.addEventListener('click', this._handleClick);
-        document.addEventListener('scroll', this._handleScroll);
-    };
+  componentDidMount() {
+    document.addEventListener('contextmenu', this._handleContextMenu);
+    document.addEventListener('click', this._handleClick);
+    document.addEventListener('scroll', this._handleScroll);
+  };
 
-    componentWillUnmount() {
-      document.removeEventListener('contextmenu', this._handleContextMenu);
-      document.removeEventListener('click', this._handleClick);
-      document.removeEventListener('scroll', this._handleScroll);
-    }
+  componentWillUnmount() {
+    document.removeEventListener('contextmenu', this._handleContextMenu);
+    document.removeEventListener('click', this._handleClick);
+    document.removeEventListener('scroll', this._handleScroll);
+  }
   render() {
     const { visible } = this.state
+    const { title } = this.props
     return (
       <div>
-        <TreeNode
-        ></TreeNode>
+        <TreeNode title={title}>
+          <TreeNode style={visible?visibleStyle:unvisibleStyle} title={<input></input>}></TreeNode>
+        </TreeNode>
       </div>
     )
   }

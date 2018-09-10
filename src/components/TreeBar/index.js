@@ -87,6 +87,9 @@ export class TreeBar extends Component {
               </div>
           </Tags>
           {/* <SearchInput></SearchInput> */}
+          <Tree>
+                    
+          </Tree>
         </div>
         <div className="slider" onDragCapture={(e)=>{
          e.persist

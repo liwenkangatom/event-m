@@ -11,7 +11,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
 
-  case SHOW_EVENT_COMPONENT:
+case SHOW_EVENT_COMPONENT:
     return {
        ...state,
        eventshow: true
