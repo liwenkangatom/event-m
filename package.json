@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.9.1",
     "react": "^16.4.2",
+    "react-contextmenu": "^2.9.3",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.5",

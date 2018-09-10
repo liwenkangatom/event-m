@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
+<<<<<<< HEAD
 import {TreeSelect, Input} from 'antd'
+=======
+import {TreeSelect, Tree} from 'antd'
+import ContextMenu from './ContextMenu'
+>>>>>>> 78daaf8a96a8220f048c5eed926f0a5992f56779
 const TreeNode = TreeSelect.TreeNode
 export default class Node extends Component {
   constructor(props){
@@ -8,6 +13,7 @@ export default class Node extends Component {
       visible:false
     }
   }
+<<<<<<< HEAD
   _handleClick = (event) => {
     const { visible } = this.state;
     const wasOutside = !(event.target.contains === this.root);
@@ -79,6 +85,32 @@ export default class Node extends Component {
           <TreeNode style={visible?visibleStyle:unvisibleStyle} title={<input></input>}></TreeNode>
         </TreeNode>
       </div>
+=======
+ 
+  render() {
+    const { addState, changeState, deleteState, title } = this.props
+    let show ={
+      'display': 'block'
+    }
+    let unshow = {
+      
+      'display': 'none'
+    }
+    return (
+      <TreeNode>
+        <TreeNode
+          style={deleteState?show:unshow}
+          title= {changeState?<input placeholder={title}>
+          </input>:<ContextMenu>{title}</ContextMenu>}
+        >
+          <TreeNode
+            style={addState?show:unshow}
+            title={<input></input>}
+          >
+          </TreeNode>
+        </TreeNode>
+      </TreeNode>
+>>>>>>> 78daaf8a96a8220f048c5eed926f0a5992f56779
     )
   }
 }
