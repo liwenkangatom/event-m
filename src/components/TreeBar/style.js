@@ -60,7 +60,7 @@ export const Menu = styled.div`
 		rgba(124, 124, 124, 0.29);
     border-radius: 4px;
 `
-export const MenuItem = styled.div`
+export const Mtem = styled.div`
     width: 118px;
     height: 27px;
     line-height: 27px;
