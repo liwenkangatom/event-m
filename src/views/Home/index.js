@@ -10,7 +10,9 @@ import './home.css'
 import { bindActionCreators } from 'redux';
 
 class Home extends Component {
+    
     render() {
+        const { tData, addtag, inittags, renametag, deletetag, onselecttag } = this.props
         return (
             <div className='Home'>
                 <div className='header'>
@@ -18,7 +20,12 @@ class Home extends Component {
                 </div>
                 <div className='section'>
                     <div className='sider'>
-                        <TreeBar>
+                        <TreeBar 
+                        treeData={tData}
+                        addTag={addtag}
+                        deleteTag={deletetag}
+                        renameTag={renametag}
+                        >
                             <EventDrop></EventDrop>
                         </TreeBar>
                     </div>
@@ -36,10 +43,13 @@ const mapStateToProps=(state)=>{
 }
 const mapDispatchToProps= dispatch => {
     console.log(actions)
-    console.log(typeof(actions.home.treebar.lightUp))
     return {
-        lightup: bindActionCreators(actions.home.treebar.lghtUp),
-        lightdown: bindActionCreators(actions.home.treebar.lightdown)
+        inittags: bindActionCreators(actions.home.treebar.refreshtags),
+        renametag: bindActionCreators(actions.home.treebar.renametag),
+        deletetag: bindActionCreators(actions.home.treebar.deletetag),
+        addtag: bindActionCreators(actions.home.treebar.addtag),
+        onselecttag: bindActionCreators(actions.home.treebar.onSelect)
     }
+    
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
