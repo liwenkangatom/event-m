@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 
 import { Layout, Icon, Tree, Input,  Tooltip, Modal} from 'antd';
 import 'antd/dist/antd.css';
-
+import {actions} from '../../redux'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import { Search, 
   SearchWrapper,
   Tags,
@@ -34,47 +36,22 @@ const getParentKey = (key, tree) => {
   return parentKey;
 };
 class TreeBar extends Component {
-  static propTypes = {
-    treeData: PropTypes.array,
-    addTag: PropTypes.func,
-    deleteTag: PropTypes.func,
-    renameTag: PropTypes.func,
-    selectedTag: PropTypes.func,
-  }
-  static defaultProps = {
-    treeData: [
-      {
-        "key": 1,
-        "title": "test1",
-        "children": [{
-          "key": 2,
-          "title": "test2",
-          "children":[ {
-            "key": 3,
-            "title": "test3",
-          }, {
-            "key": 4,
-            "title": "test4"
-          }]
-        },{
-          "key": 5,
-          "title": "test5",
-        }]
-      },
-      {
-        "key": 6,
-        "title": "test6"
-      },
-      {
-        "key": 7,
-        "title": "test7"
-      }
-    ],
-    addTag: ()=>console.log('addtag'),
-    deleteTag: ()=>console.log('deleteTag'),
-    renameTag: () =>console.log('renameTag'),
-    selectedTag: () =>console.log('selectedTag')
-  }
+  // static propTypes = {
+  //   treeData: PropTypes.array,
+  //   addTag: PropTypes.func,
+  //   deleteTag: PropTypes.func,
+  //   renameTag: PropTypes.func,
+  //   selectedTag: PropTypes.func,
+  //   initTags: PropTypes.func,
+  // }
+  // static defaultProps = {
+  //   treeData: [],
+  //   addTag: ()=>console.log('addtag'),
+  //   deleteTag: ()=>console.log('deleteTag'),
+  //   renameTag: () =>console.log('renameTag'),
+  //   selectedTag: () =>console.log('selectedTag'),
+  //   initTags: ()=> console.log('init')
+  // }
   constructor(props) {
     super(props);
     this.state={
@@ -106,7 +83,7 @@ generateList=(data)=>{
   for (let i = 0; i < data.length; i++) {
     const node = data[i];
     const key = node.key;
-    this.dataList.push({ key, title: node.title });
+    this.dataList.push({ key: key, title: node.title });
     if (node.children) {
       this.generateList(node.children, node.Key);
     }
@@ -128,6 +105,7 @@ onSelectHandle = (selectedKeys, info) => {
 onCheckHandle = (checkedKeys, info) => {
   this.exitEdit
   console.log(checkedKeys); 
+  this.props.onselectTag(checkedKeys.checked)
    this.setState({
     selectedKeys: checkedKeys.checked
   })
@@ -168,7 +146,7 @@ onchangeHandle = (e) => {
       okType: 'danger',
       cancelText: 'No',
       onOk(){
-        ref.props.deleteTag(ref.state.rightclickkey)
+        ref.deleteaction()
       },
       onCancel() {
         console.log('Cancel');
@@ -217,22 +195,40 @@ onchangeHandle = (e) => {
   }
   addaction=()=>{
     this.setState({addkey: ''},this.props.addTag(this.state.addvalue, this.state.rightclickkey))
+    this.props.initTags()
+    this.setState({data: this.props.gData},()=>{
+      this.generateList(this.state.data)
+    })
+    this.setState({dataList: this.dataList})
   }
   addinputchange=(e)=>{
     this.setState({addvalue: e.target.value})
   }
   renameaction=()=>{
     this.setState({changekey:''},this.props.renameTag(this.state.rightclickkey, this.state.renamevalue))
+    this.props.initTags()
+    this.setState({data: this.props.gData},()=>{
+      this.generateList(this.state.data)
+    })
+    this.setState({dataList: this.dataList})
   }
   renameinputchange=(e) => {
     this.setState({renamevalue: e.target.value})
+    
   }
   deleteaction=()=>{
     this.props.deleteTag(this.state.rightclickkey)
+    this.props.initTags()
+    this.setState({data: this.props.gData},()=>{
+      this.generateList(this.state.data)
+    })
+    this.setState({dataList: this.dataList})
   }
   componentWillMount() {
-    this.props.selectedTag
-    this.setState({data: this.props.treeData},()=>{
+    console.log(this.props)
+    this.props.initTags()
+    console.log(this.props.gData)
+    this.setState({data: this.props.gData},()=>{
       this.generateList(this.state.data)
     })
     this.setState({dataList: this.dataList})
@@ -337,7 +333,7 @@ onchangeHandle = (e) => {
         </TreeNode>
     )
   });
-   
+    console.log(this.state)
     let menuitem = <div style={{
         "width": "118px",
 	      "height": "88px",
@@ -444,7 +440,7 @@ onchangeHandle = (e) => {
             <TreeNode 
             style={(addroot)?visible:unvisible} 
             title={<Input 
-                    onPressEnter={()=>{this.setState({addroot: false},addTag(this.state.addvalue, 0))}} 
+                    onPressEnter={()=>{this.setState({addroot: false},addTag(this.state.addvalue, null))}} 
                     onChange={(e)=>{this.setState({addvalue: e.target.value})}} 
                     value={this.state.addvalue}
                     size="small"
@@ -452,7 +448,7 @@ onchangeHandle = (e) => {
                     </Input>}>
             </TreeNode>
             
-           {loop(data)}
+           {loop(this.props.gData)}
           </Tree>
           <ContextMenu 
           id="some_unique_identifier" 
@@ -495,4 +491,19 @@ onchangeHandle = (e) => {
     )
   }
 }
-export default TreeBar
+const mapStateToProps=(state)=>{
+  return{
+    gData: state.home.treebar.gData
+  }
+}
+const mapDispatchToProps= dispatch => {
+  console.log(actions)
+  return {
+      initTags: bindActionCreators(actions.home.treebar.refreshtags,dispatch),
+      renameTag: bindActionCreators(actions.home.treebar.renametag,dispatch),
+      deleteTag: bindActionCreators(actions.home.treebar.deletetag,dispatch),
+      addTag: bindActionCreators(actions.home.treebar.addtag,dispatch),
+      onselectTag: bindActionCreators(actions.home.treebar.onSelect,dispatch)
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TreeBar)

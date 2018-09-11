@@ -48,7 +48,7 @@ class Time extends Component {
 
 function  mapStateToProps(state) {
     return {
-        date: state.event.showcommit.date
+        date: state.home.event.showcommit.date
     }
 }
 function mapDispatchToProps(Dispatch) {

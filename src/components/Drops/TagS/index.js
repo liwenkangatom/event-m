@@ -93,10 +93,10 @@ class TagS extends Component {
 
 function  mapStateToProps(state) {
   return {
-      gData: state.tag.gData,
-      eventkey: state.event.showcommit.key,
-      eventtag: state.event.eventtag,
-      tags: state.event.showtags
+      gData: state.home.treebar.gData,
+      eventkey: state.home.event.showcommit.key,
+      eventtag: state.home.event.eventtag,
+      tags: state.home.event.showtags
   }
 }
 function mapDispatchToProps(Dispatch) {

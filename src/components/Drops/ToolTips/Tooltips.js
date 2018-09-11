@@ -22,7 +22,7 @@ class Tooltips extends Component {
 
 function  mapStateToProps(state) {
   return {
-      showcommit: state.event.showcommit,
+      showcommit: state.home.event.showcommit,
   }
 }
 

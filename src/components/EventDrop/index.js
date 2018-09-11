@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './eventdrop.css'
+import RightBar from '../RightBar'
 export default class EventDrop extends Component {
   static propTypes = {
     show: PropTypes.bool
@@ -20,8 +21,7 @@ export default class EventDrop extends Component {
     return (
       <div>
         <div className="EventDrop">
-          <p>EventDrop</p>
-          <p className={show?'visible':'unvisible'}>{eventtitle}</p>
+          <RightBar></RightBar>
         </div>
       </div>
     )

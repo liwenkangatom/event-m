@@ -218,12 +218,12 @@ class Drops extends Component {
 
 function  mapStateToProps(state) {
     return {
-        selectedKeys: state.tag.selectedKeys,
-        data: state.event.data,
-        eventtag: state.event.eventtag,
-        gdata: state.tag.gData,
-        changecommit: state.event.changecommit,
-        showtags: state.event.showtags,
+        selectedKeys: state.home.treebar.selectedKeys,
+        data: state.home.event.data,
+        eventtag: state.home.event.eventtag,
+        gdata: state.home.treebar.gData,
+        changecommit: state.home.event.changecommit,
+        showtags: state.home.event.showtags,
     }
 }
 function mapDispatchToProps(Dispatch) {

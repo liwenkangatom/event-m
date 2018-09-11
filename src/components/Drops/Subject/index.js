@@ -38,8 +38,8 @@ class Subject extends Component {
 
 function  mapStateToProps(state) {
     return {
-        subject: state.event.showcommit.subject,
-        eventkey: state.event.showcommit.key
+        subject: state.home.event.showcommit.subject,
+        eventkey: state.home.event.showcommit.key
     }
 }
 function mapDispatchToProps(Dispatch) {

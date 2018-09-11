@@ -113,7 +113,7 @@ class ModalWrapper extends Component {
 
 function  mapStateToProps(state) {
     return {
-        subject: state.event.showcommit.subject,
+        subject: state.home.event.showcommit.subject,
     }
 }
 

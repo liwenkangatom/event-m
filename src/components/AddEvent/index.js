@@ -255,8 +255,8 @@ class AddEvent extends Component {
 
 function  mapStateToProps(state) {
   return {
-    addtags: state.event.addtags,
-    addcommits: state.event.addcommits
+    addtags: state.home.event.addtags,
+    addcommits: state.home.event.addcommits
   }
 }
 function mapDispatchToProps(Dispatch) {

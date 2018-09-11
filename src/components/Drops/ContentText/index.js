@@ -42,7 +42,7 @@ class ContentText extends Component {
 
 function  mapStateToProps(state) {
     return {
-        content: state.event.showcommit.content
+        content: state.home.event.showcommit.content
     }
 }
 function mapDispatchToProps(Dispatch) {
