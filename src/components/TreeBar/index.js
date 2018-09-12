@@ -35,6 +35,29 @@ const getParentKey = (key, tree) => {
   }
   return parentKey;
 };
+
+const transData=(b) =>{
+  console.log('transData')
+  console.log(a)
+  //f**k js
+  let a = b.concat()
+  let r = [], hash = {}
+  for (let i in a) {
+      hash[(a[i].key)] = a[i];
+  }
+  for (let j in a) {
+      let aVal = a[j]
+      let hashVP = hash[aVal.pid];
+      if (hashVP) {
+          // !hashVP[children] && (hashVP[children] = []);
+          if(!hashVP.child) hashVP.child = []
+          hashVP.child.push(aVal);
+      } else {
+          r.push(aVal);
+      }
+  }
+  return r;
+}
 class TreeBar extends Component {
   // static propTypes = {
   //   treeData: PropTypes.array,
@@ -55,8 +78,16 @@ class TreeBar extends Component {
   constructor(props) {
     super(props);
     this.state={
-      data: this.props.treeData,
+      data: {"tree":[
+        {"Key": 1,"title": "hello","p": null},
+        {"Key": 2,"title": "word", "p": null},
+        {"Key": 3,"title": "!", "p": 1},
+        {"Key": 4,"title": "f***", "p": 2},
+        {"Key": 5, "title": "D***", "p": 4}
+      ], "topkey": 5}
+      ,
       dataList: [],
+      treeData: [],
 
       selectedKey: 0,
       collapsed: true,
@@ -78,6 +109,7 @@ class TreeBar extends Component {
       addrootvalue:''
     }
   }
+
 dataList = []
 generateList=(data)=>{
   for (let i = 0; i < data.length; i++) {
@@ -104,11 +136,11 @@ onSelectHandle = (selectedKeys, info) => {
 
 onCheckHandle = (checkedKeys, info) => {
   this.exitEdit
-  console.log(checkedKeys); 
-  this.props.onselectTag(checkedKeys.checked)
-   this.setState({
-    selectedKeys: checkedKeys.checked
-  })
+  // console.log(checkedKeys); 
+  // this.props.onselectTag(checkedKeys.checked)
+  //  this.setState({
+  //   selectedKeys: checkedKeys.checked
+  // })
   // this.props.onSelect(checkedKeys.checked, info)
 }
 
@@ -194,54 +226,85 @@ onchangeHandle = (e) => {
     })
   }
   addaction=()=>{
-    this.setState({addkey: ''},this.props.addTag(this.state.addvalue, this.state.rightclickkey))
-    this.props.initTags()
-    this.setState({data: this.props.gData},()=>{
-      this.generateList(this.state.data)
-    })
-    this.setState({dataList: this.dataList})
+ 
+    // this.setState({addkey: ''},this.props.addTag(this.state.addvalue, this.state.rightclickkey))
+    // this.props.initTags()
+    // this.setState({data: this.props.gData},()=>{
+    //   this.generateList(this.state.data)
+    // })
+    // this.setState({dataList: this.dataList})
   }
   addinputchange=(e)=>{
     this.setState({addvalue: e.target.value})
   }
   renameaction=()=>{
-    this.setState({changekey:''},this.props.renameTag(this.state.rightclickkey, this.state.renamevalue))
-    this.props.initTags()
-    this.setState({data: this.props.gData},()=>{
-      this.generateList(this.state.data)
-    })
-    this.setState({dataList: this.dataList})
+    // let tmp =this.state.data
+    // for (let k in tmp.tree) {
+    //   if(tmp.tree[k].key === this.state.rightclickkey){
+    //     tmp.tree[k].title = this.state.renamevalue
+    //   }
+    // }
+    // console.log(tmp)
+    // this.setState({
+    //   data: tmp,
+    //   changekey: ''
+    // }, console.log(this.state))
+    // this.setState({changekey:''},this.props.renameTag(this.state.rightclickkey, this.state.renamevalue))
+    // this.props.initTags()
+    // this.setState({data: this.props.gData},()=>{
+    //   this.generateList(this.state.data)
+    // })
+    // this.setState({dataList: this.dataList})
   }
   renameinputchange=(e) => {
     this.setState({renamevalue: e.target.value})
     
   }
   deleteaction=()=>{
-    this.props.deleteTag(this.state.rightclickkey)
-    this.props.initTags()
-    this.setState({data: this.props.gData},()=>{
-      this.generateList(this.state.data)
-    })
-    this.setState({dataList: this.dataList})
+    // this.props.deleteTag(this.state.rightclickkey)
+    // this.props.initTags()
+    // this.setState({data: this.props.gData},()=>{
+    //   this.generateList(this.state.data)
+    // })
+    // this.setState({dataList: this.dataList})
   }
   componentWillMount() {
-    console.log(this.props)
-    this.props.initTags()
-    console.log(this.props.gData)
-    this.setState({data: this.props.gData},()=>{
-      this.generateList(this.state.data)
-    })
-    this.setState({dataList: this.dataList})
+    console.log(this.state.data)
+    let a = []
+    // let tmp = this.state.data.tree
+    for(let k in tmp) {
+      a.push(tmp[k])
+    }
+    let tmp = {
+      "tree": [
+        {"key": 1, "title": "name", "pid": null},
+        {"key": 2, "title": "n3e", "pid": null},
+        {"key": 3, "title": "n2", "pid": 2},
+        {"key": 4, "title": "na3e", "pid": 2}
+      ]
+    }
+    let treeData = transData(tmp.tree)
+  
+    console.log(treeData)
+    // tmp.tree.map((value) => {
+    //   value.child=null
+    // })
+    console.log(tmp)
+    // this.setState({
+    //   treeData
+    // })
+    // this.props.initTags(
+    // this.setState({data: this.props.gData},()=>{
+    //   this.generateList(this.state.data)
+    // })
+    // this.setState({dataList: this.dataList})
     
   }
   
   render() {
-    const {  treeData, addTag, renameTag, selectedTag} = this.props
     const { collapsed, siderwidth , data, addkey, changekey, tmptagkey} = this.state
     const { searchValue, expandedKeys, autoExpandParent, addroot, selectedKeys} = this.state
     const { renamevalue, addvalue } = this.state
-    
-    console.log(this.state)
 
     let titlecreator = (item) =>
       <ContextMenuTrigger  id="some_unique_identifier" 
@@ -333,7 +396,6 @@ onchangeHandle = (e) => {
         </TreeNode>
     )
   });
-    console.log(this.state)
     let menuitem = <div style={{
         "width": "118px",
 	      "height": "88px",
@@ -382,7 +444,6 @@ onchangeHandle = (e) => {
         changeTag</MenuItem>
         </div>
     </div>
-
     let visible = {
       "display": "block"
     }
@@ -437,18 +498,19 @@ onchangeHandle = (e) => {
           onExpand={this.onExpandHandle}
           onCheck={this.onCheckHandle}
           selectedKeys={selectedKeys}>
-            <TreeNode 
+           {loop(this.state.treeData)}
+           {/* {console.log(this.state.treeData)} */}
+           <TreeNode 
             style={(addroot)?visible:unvisible} 
             title={<Input 
-                    onPressEnter={()=>{this.setState({addroot: false},addTag(this.state.addvalue, null))}} 
+                    // onPressEnter={()=>{this.setState({addroot: false},addTag(this.state.addvalue, null))}} 
+                    onPressEnter={()=>{this.setState({addroot: false})}}
                     onChange={(e)=>{this.setState({addvalue: e.target.value})}} 
                     value={this.state.addvalue}
                     size="small"
                     style={{width: "50px"}}>
                     </Input>}>
             </TreeNode>
-            
-           {loop(this.props.gData)}
           </Tree>
           <ContextMenu 
           id="some_unique_identifier" 
