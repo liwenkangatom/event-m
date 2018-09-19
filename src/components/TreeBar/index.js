@@ -337,12 +337,6 @@ class TreeBar extends Component {
               </div>
             
           </Tags>
-<<<<<<< HEAD
-          {/* <SearchInput></SearchInput> */}
-          <Tree>
-                    
-          </Tree>
-=======
           <Tree
           checkable
           checkStrictly={true}
@@ -360,7 +354,6 @@ class TreeBar extends Component {
           <ContextMenu id="some_unique_identifier" onShow={(value)=>{console.log(value)}}>
             {menuitem}
           </ContextMenu>
->>>>>>> 78daaf8a96a8220f048c5eed926f0a5992f56779
         </div>
         <div className="slider" onDragCapture={(e)=>{
          e.persist
